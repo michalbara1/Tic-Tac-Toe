@@ -52,13 +52,25 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
             binding.btn7.text = filledPos[7]
             binding.btn8.text = filledPos[8]
 
+            binding.startGameBtn.visibility = View.VISIBLE
 
-            binding.gameStatusText.text=
+            binding.gameStatusText.text =
                 when(gameStatus){
-                    GameStatus.CREATED -> {"Game ID:"+gameId}
-                    GameStatus.JOINED -> "Click on Start Game to begin"
-                    GameStatus.INPROGRESS -> currentPlayer+"'s turn"
-                    GameStatus.FINISHED -> if (winner.isNotEmpty()) "Winner is $winner" else "Game Draw"
+                    GameStatus.CREATED -> {
+                        binding.startGameBtn.visibility = View.INVISIBLE
+                        "Game ID :"+ gameId
+                    }
+                    GameStatus.JOINED ->{
+                        "Click on start game"
+                    }
+                    GameStatus.INPROGRESS ->{
+                        binding.startGameBtn.visibility = View.INVISIBLE
+                        currentPlayer + " turn"
+                    }
+                    GameStatus.FINISHED ->{
+                        if(winner.isNotEmpty()) winner + " Won"
+                        else "DRAW"
+                    }
                 }
         }
 
