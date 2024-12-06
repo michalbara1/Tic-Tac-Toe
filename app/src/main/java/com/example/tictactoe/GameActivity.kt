@@ -65,11 +65,15 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
                     }
                     GameStatus.INPROGRESS ->{
                         binding.startGameBtn.visibility = View.INVISIBLE
-                        currentPlayer + " turn"
+                        "${if (currentPlayer == "X") "Player 1 X's Turn" else "Player 2 O's Turn"}"
                     }
                     GameStatus.FINISHED ->{
-                        if(winner.isNotEmpty()) winner + " Won"
-                        else "DRAW"
+                        binding.startGameBtn.text = "Play again"
+                        if (winner.isNotEmpty()) {
+                            if (winner == "X") "Player 1 Won" else "Player 2 Won"
+                        } else {
+                            "DRAW"
+                        }
                     }
                 }
         }
@@ -123,6 +127,7 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
             if(filledPos[clickedPos].isEmpty()){
                 filledPos[clickedPos] = currentPlayer
                 currentPlayer = if(currentPlayer=="X") "O" else "X"
+                checkForWinner()
                 updateGameData(this)
             }
 
