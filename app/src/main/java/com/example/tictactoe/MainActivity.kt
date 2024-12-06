@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.example.tictactoe.GameData.gameModel
 import com.example.tictactoe.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -19,12 +20,13 @@ class MainActivity : AppCompatActivity() {
             createOfflineGame()
         }
     }
-
-    fun createOfflineGame() {
+    fun createOfflineGame(){
+        GameData.saveGameModel(GameModel(gameStatus = GameStatus.JOINED))
         startGame()
     }
 
     fun startGame() {
-        startActivity(Intent(this, GameActivity::class.java))
+        startActivity(Intent(this,GameActivity::class.java))
     }
+
 }

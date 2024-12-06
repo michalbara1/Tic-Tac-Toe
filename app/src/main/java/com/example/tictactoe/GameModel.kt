@@ -6,7 +6,7 @@ data class GameModel (
     var gameId: String = "-1",
     var filledPos: MutableList<String> = mutableListOf("", "", "", "", "", "", "", "", ""),
     var winner: String = "",
-    var gameStaus:GameStatus = GameStatus.CREATED,
+    var gameStatus:GameStatus = GameStatus.CREATED,
     var currentPlayer: String = arrayOf("X", "O")[Random.nextInt(2)]
 )
 

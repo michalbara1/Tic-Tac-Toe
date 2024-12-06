@@ -2,6 +2,7 @@ package com.example.tictactoe
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.tictactoe.databinding.ActivityGameBinding
 import com.example.tictactoe.databinding.ActivityMainBinding
@@ -53,7 +54,7 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
 
 
             binding.gameStatusText.text=
-                when(gameStaus){
+                when(gameStatus){
                     GameStatus.CREATED -> {"Game ID:"+gameId}
                     GameStatus.JOINED -> "Click on Start Game to begin"
                     GameStatus.INPROGRESS -> currentPlayer+"'s turn"
@@ -63,43 +64,35 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
 
     }
 
+    fun updateGameData(model: GameModel) {
+        GameData.saveGameModel(model)
+    }
+
     override fun onClick(v: View?) {
-        when (v?.id) {
-            R.id.btn_0 -> {
-                // Handle click for btn_0
+        gameModel?.apply {
+            if(gameStatus!= GameStatus.INPROGRESS){
+                Toast.makeText(applicationContext,"Game not started",Toast.LENGTH_SHORT).show()
+                return
             }
-            R.id.btn_1 -> {
-                // Handle click for btn_1
+            //game is in progress
+            val clickedPos =(v?.tag  as String).toInt()
+            if(filledPos[clickedPos].isEmpty()){
+                filledPos[clickedPos] = currentPlayer
+                currentPlayer = if(currentPlayer=="X") "O" else "X"
+                updateGameData(this)
             }
-            R.id.btn_2 -> {
-                // Handle click for btn_2
-            }
-            R.id.btn_3 -> {
-                // Handle click for btn_3
-            }
-            R.id.btn_4 -> {
-                // Handle click for btn_4
-            }
-            R.id.btn_5 -> {
-                // Handle click for btn_5
-            }
-            R.id.btn_6 -> {
-                // Handle click for btn_6
-            }
-            R.id.btn_7 -> {
-                // Handle click for btn_7
-            }
-            R.id.btn_8 -> {
-                // Handle click for btn_8
-            }
-            else -> {
-                // Handle any other views if needed
-            }
+
         }
     }
 
-    // Start the game method (to be implemented)
-    private fun startGame() {
-        TODO("Not yet implemented")
+    fun startGame(){
+        gameModel?.apply {
+            updateGameData(
+                GameModel(
+                    gameId = gameId,
+                    gameStatus = GameStatus.INPROGRESS
+                )
+            )
+        }
     }
 }
